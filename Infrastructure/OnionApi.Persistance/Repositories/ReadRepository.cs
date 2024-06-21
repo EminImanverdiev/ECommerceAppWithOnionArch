@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Query;
 using OnionApi.Application.Interfaces.Repositories;
 using OnionApi.Domain.Common;
+using OnionApi.Persistance.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace OnionApi.Persistance.Repositories
 {
     public class ReadRepository<T> : IReadRepository<T> where T : class, IEntityBase, new()
     {
-        private readonly DbContext _context;
+        private readonly AppDbContext _context;
 
         public ReadRepository(DbContext context)
         {
