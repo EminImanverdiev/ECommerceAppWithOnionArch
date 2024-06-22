@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OnionApi.Application.Interfaces.UnitOfWorks;
+using OnionApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,24 @@ namespace OnionApi.Application.Features.Products.Queries.GetAllProducts
             _unitOfWork = unitOfWork;
         }
       
-        public Task<IList<GetAllProductsQueryResponse>> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
+        public async Task<IList<GetAllProductsQueryResponse>> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var products= await _unitOfWork.GetReadRepository<Product>().GetAllAsync();
+            List<GetAllProductsQueryResponse> responses = new();
+            foreach (var product in products)
+            {
+                responses.Add(
+                    new GetAllProductsQueryResponse
+                    {
+
+                        Title = product.Title,
+                        Description = product.Description,
+                        Discount = product.Discount,
+                        Price = product.Price-(product.Price*product.Discount/100),
+                    }
+                    );
+            }
+            return responses;
         }
     }
 }
