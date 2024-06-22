@@ -16,7 +16,7 @@ namespace OnionApi.Persistance.Repositories
     {
         private readonly AppDbContext _context;
 
-        public ReadRepository(DbContext context)
+        public ReadRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -35,7 +35,9 @@ namespace OnionApi.Persistance.Repositories
             return  Table.Where(predicate);
         }
 
-        public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false)
+        public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false)
         {
             IQueryable<T> queryable = Table;
             if (!enableTracking) queryable = queryable.AsNoTracking();
@@ -47,7 +49,10 @@ namespace OnionApi.Persistance.Repositories
 
         }
 
-        public async Task<IList<T>> GetAllByPagingAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false, int currentPage = 1, int pageSize = 3)
+        public async Task<IList<T>> GetAllByPagingAsync(Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false,
+            int currentPage = 1, int pageSize = 3)
         {
             IQueryable<T> queryable = Table;
             if (!enableTracking) queryable = queryable.AsNoTracking();
@@ -58,7 +63,9 @@ namespace OnionApi.Persistance.Repositories
             return await queryable.ToListAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, bool enableTracking = false)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+            bool enableTracking = false)
         {
             IQueryable<T> queryable = Table;
             if (!enableTracking) queryable = queryable.AsNoTracking();

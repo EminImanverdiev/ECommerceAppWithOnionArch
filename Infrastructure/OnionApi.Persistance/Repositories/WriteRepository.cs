@@ -14,7 +14,7 @@ namespace OnionApi.Persistance.Repositories
     {
         private readonly AppDbContext _context;
 
-        public WriteRepository(DbContext context)
+        public WriteRepository(AppDbContext context)
         {
             _context = context;
         }
