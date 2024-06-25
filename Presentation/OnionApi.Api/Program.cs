@@ -1,5 +1,6 @@
 using OnionApi.Persistance;
 using OnionApi.Application;
+using OnionApi.Mapper;
 namespace OnionApi.Api
 {
     public class Program
@@ -23,6 +24,7 @@ namespace OnionApi.Api
 
             builder.Services.AddPersistance(builder.Configuration);
             builder.Services.AddApplication();
+            builder.Services.AddCustomMapper();
 
 
             var app = builder.Build();
