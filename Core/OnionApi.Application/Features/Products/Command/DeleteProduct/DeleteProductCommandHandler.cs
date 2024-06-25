@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using OnionApi.Application.Interfaces.UnitOfWorks;
+using OnionApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,18 @@ namespace OnionApi.Application.Features.Products.Command.DeleteProduct
 {
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandRequest>
     {
-        public Task Handle(DeleteProductCommandRequest request, CancellationToken cancellationToken)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public DeleteProductCommandHandler(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+        }
+        public async Task Handle(DeleteProductCommandRequest request, CancellationToken cancellationToken)
+        {
+            var product = await _unitOfWork.GetReadRepository<Product>().GetAsync(x => x.Id == request.Id && !x.IsDeleted);
+            product.IsDeleted = true;
+            await _unitOfWork.GetWriteRepository<Product>().UpdateAsync(product);
+            await _unitOfWork.SaveAsync();
         }
     }
 }
