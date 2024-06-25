@@ -8,5 +8,6 @@ namespace OnionApi.Application.Interfaces.Repositories
         Task AddRangeAsync(IList<T> entities);
         Task<T> UpdateAsync(T entity);
         Task HardDeleteAsync(T entity);
+        Task HardDeleteRangeAsync(IList<T> entities);
     }
 }
