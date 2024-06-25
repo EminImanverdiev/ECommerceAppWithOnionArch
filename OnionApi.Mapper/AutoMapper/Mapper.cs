@@ -1,56 +1,48 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using OnionApi.Application.DTOs;
+using OnionApi.Application.Features.Products.Queries.GetAllProducts;
+using OnionApi.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OnionApi.Mapper.AutoMapper
 {
     public class Mapper : Application.Interfaces.AutoMapper.IMapper
     {
-        public static List<TypePair> typePairs = new();
-        private IMapper MapperContainer;
+        private readonly IMapper _mapper;
+
+        public Mapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Product, GetAllProductsQueryResponse>()
+                   .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand != null ? new BrandDto { Name = src.Brand.Name } : null));
+                cfg.CreateMap<Brand, BrandDto>();
+            });
+
+            _mapper = config.CreateMapper();
+        }
+
         public TDestination Map<TDestination, TSource>(TSource source, string? ignore = null)
         {
-            Config<TDestination, TSource>(5, ignore);
-            return MapperContainer.Map<TSource, TDestination>(source);
+            return _mapper.Map<TSource, TDestination>(source);
         }
 
         public IList<TDestination> Map<TDestination, TSource>(IList<TSource> sources, string? ignore = null)
         {
-             Config<TDestination, TSource>(5, ignore);
-            return MapperContainer.Map<IList<TSource>, IList<TDestination>>(sources);
+            return _mapper.Map<IList<TSource>, IList<TDestination>>(sources);
         }
 
         public TDestination Map<TDestination>(object source, string? ignore = null)
         {
-            Config<TDestination,Object>(5, ignore);
-            return MapperContainer.Map<TDestination>(source);
+            return _mapper.Map<TDestination>(source);
         }
 
         public IList<TDestination> Map<TDestination>(IList<object> source, string? ignore = null)
         {
-            Config<TDestination, IList<Object>>(5, ignore);
-            return MapperContainer.Map<IList<TDestination>>(source); ;
+            return _mapper.Map<IList<object>, IList<TDestination>>(source);
         }
-        protected void Config<TDestination, TSource>(int depth = 5, string? ignore = null)
-        {
-            var typePair = new TypePair(typeof(TSource), typeof(TDestination));
-            if (typePairs.Any(a => a.DestinationType == typePair.DestinationType && a.SourceType == typePair.SourceType && ignore is null))
-                return;
-            typePairs.Add(typePair);
-            var config = new MapperConfiguration(cfg =>
-            {
-                foreach (var item in typePairs)
-                {
-                    if (ignore is null)
-                        cfg.CreateMap(item.SourceType,item.DestinationType).MaxDepth(depth).ForMember(ignore,x=>x.Ignore()).ReverseMap();
-                    else
-                        cfg.CreateMap(item.SourceType, item.DestinationType).MaxDepth(depth).ReverseMap();
-                }
-
-            });
-
-            MapperContainer = config.CreateMapper();
-        }
-
-        
     }
 }

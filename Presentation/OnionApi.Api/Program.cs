@@ -23,8 +23,8 @@ namespace OnionApi.Api
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.Services.AddPersistance(builder.Configuration);
-            builder.Services.AddApplication();
             builder.Services.AddCustomMapper();
+            builder.Services.AddApplication();
 
 
             var app = builder.Build();
