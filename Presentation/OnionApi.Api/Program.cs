@@ -1,6 +1,8 @@
 using OnionApi.Persistance;
 using OnionApi.Application;
 using OnionApi.Mapper;
+using OnionApi.Application.Exceptions;
+
 namespace OnionApi.Api
 {
     public class Program
@@ -37,7 +39,7 @@ namespace OnionApi.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.ConfigureExceptionHandlingMiddleware();
             app.UseAuthorization();
 
 
