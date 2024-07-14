@@ -1,5 +1,6 @@
 using OnionApi.Persistance;
 using OnionApi.Application;
+using OnionApi.Infrastructure;
 using OnionApi.Mapper;
 using OnionApi.Application.Exceptions;
 
@@ -26,6 +27,7 @@ namespace OnionApi.Api
 
             builder.Services.AddPersistance(builder.Configuration);
             builder.Services.AddCustomMapper();
+            builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
 
 

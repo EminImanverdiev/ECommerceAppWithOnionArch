@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\OnionApi.Infrastructure\OnionApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\OnionApi.Persistance\OnionApi.Persistance.csproj" />
     <ProjectReference Include="..\..\OnionApi.Mapper\OnionApi.Mapper.csproj" />
   </ItemGroup>
