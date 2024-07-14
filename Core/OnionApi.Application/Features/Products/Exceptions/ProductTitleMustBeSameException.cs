@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnionApi.Application.Features.Products.Exceptions
 {
-    public class ProductTitleMustBeSameException:BaseExceptions
+    public class ProductTitleMustBeSameException:BaseException
     {
         public ProductTitleMustBeSameException():base("Mehsul basliqi onsuz var!")
         {

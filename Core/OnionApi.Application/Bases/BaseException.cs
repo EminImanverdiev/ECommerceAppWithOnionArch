@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OnionApi.Application.Bases
 {
-    public class BaseExceptions:ApplicationException
+    public class BaseException:ApplicationException
     {
-        public BaseExceptions()
+        public BaseException()
         {
             
         }
-        public BaseExceptions(string message):base(message)
+        public BaseException(string message):base(message)
         {
 
         }
