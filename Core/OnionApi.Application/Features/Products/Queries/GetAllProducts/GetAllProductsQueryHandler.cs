@@ -33,8 +33,7 @@ namespace OnionApi.Application.Features.Products.Queries.GetAllProducts
             {
                 item.Price -= (item.Price * item.Discount / 100);
             }
-            throw new Exception("hata messahi");
-            //return mappedProducts;
+            return mappedProducts;
         }
     }
 }

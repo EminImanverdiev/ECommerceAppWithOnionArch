@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnionApi.Application.Features.Products.Rules;
 using OnionApi.Application.Interfaces.UnitOfWorks;
 using OnionApi.Domain.Entities;
 using System;
@@ -12,13 +13,22 @@ namespace OnionApi.Application.Features.Products.Command.CreateProduct
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest,Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ProductsRules _productsRules;
 
-        public CreateProductCommandHandler(IUnitOfWork unitOfWork)
+        public CreateProductCommandHandler(IUnitOfWork unitOfWork,ProductsRules productsRules)
         {
             _unitOfWork = unitOfWork;
+            _productsRules = productsRules;
         }
         public async Task<Unit> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
         {
+
+            IList<Product> products=await _unitOfWork.GetReadRepository<Product>().GetAllAsync();
+
+            await _productsRules.ProductTitleMustNotBeSame(products,request.Title);
+
+
+
             Product product = new(request.Title, request.Description, request.BrandId, request.Price, request.Discount);
             await _unitOfWork.GetWriteRepository<Product>().AddAsync(product);
             if(await _unitOfWork.SaveAsync() > 0)

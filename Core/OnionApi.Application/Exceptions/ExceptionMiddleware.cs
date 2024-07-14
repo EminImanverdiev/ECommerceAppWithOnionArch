@@ -40,8 +40,7 @@ namespace OnionApi.Application.Exceptions
 
             List<string> errors = new() 
 			{ 
-				$"Xeta Mesaji: {exception.Message}",
-				$"Xeta Aciqlamasi: {exception.InnerException?.ToString()}"
+				$"Xeta Mesaji: {exception.Message}"
 			};
 			return httpContext.Response.WriteAsync(new ExceptionModel
 			{
