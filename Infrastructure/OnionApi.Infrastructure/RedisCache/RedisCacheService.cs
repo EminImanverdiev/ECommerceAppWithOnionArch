@@ -30,7 +30,7 @@ namespace OnionApi.Infrastructure.RedisCache
             return default;
         }
 
-        public async Task<T> SetAsync<T>(string key, T value, DateTime? expirationTime = null)
+        public async Task SetAsync<T>(string key, T value, DateTime? expirationTime = null)
         {
             TimeSpan timeSpan=expirationTime.Value-DateTime.UtcNow;
             await _database.StringSetAsync(key,JsonConvert.SerializeObject(value),timeSpan);
