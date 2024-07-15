@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnionApi.Application.Features.Auth.Command.Login;
+using OnionApi.Application.Features.Auth.Command.RefreshToken;
 using OnionApi.Application.Features.Auth.Command.Register;
 
 namespace OnionApi.Api.Controllers
@@ -27,6 +28,12 @@ namespace OnionApi.Api.Controllers
         {
             var response= await _mediator.Send(request);
             return StatusCode(StatusCodes.Status200OK,response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken(RefreshTokenCommandRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return StatusCode(StatusCodes.Status200OK, response);
         }
     }
 }

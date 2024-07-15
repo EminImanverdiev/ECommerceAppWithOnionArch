@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OnionApi.Application.Features.Auth.Exceptions.EmailOrPasswordShouldNotBeInvalidException;
 
 namespace OnionApi.Application.Features.Auth.Rules
 {
@@ -20,11 +21,14 @@ namespace OnionApi.Application.Features.Auth.Rules
         public Task EmailOrPasswordShouldNotBeInvalid(User?user,bool checkPassword)
         {
             if (user is null || !checkPassword)
-            {
                 throw new EmailOrPasswordShouldNotBeInvalidException();
-            }
             return Task.CompletedTask;  
-
+        }
+        public Task RefreshTokenShouldNotBeExpired(DateTime? expireDate)
+        {
+            if (expireDate <= DateTime.UtcNow)
+                throw new RefreshTokenShouldNotBeExpiredException();
+            return Task.CompletedTask;
         }
     }
 }
